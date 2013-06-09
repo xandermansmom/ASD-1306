@@ -28,7 +28,10 @@ var saveData = function (key) {
 
     // Use Stringify to convert food obejct to a string
     localStorage.setItem(foodId, JSON.stringify(food));
-};
+    alert("Entry is saved!");
+			window.location.reload("#");
+			return false;
+	};
 
 //EDIT
 
@@ -90,29 +93,35 @@ $('#view').on('pageinit', function (foodId, food) {
 
     $.mobile.changePage("#view");
 
-  for (var i = 0, len=localStorage.length; i<len; i+=1) {
-            var key = localStorage.key(i),
-            fd = JSON.parse(localStorage.getItem(key)),
-
-             createSubLi = (
-                "<li>" + "<table>" + "<tr>" +
-                "<td>" + "Dish:" + "</td>" +
-                "<td>" + fd.dish[1] + "</td>" + "</tr>" +
-                "<td>" + "Category:" + "</td>" +
-                "<td>" + fd.category[1] + "</td>" + "</tr>" +
-                "<td>" + "Rating:" + "</td>" +
-                "<td>" + fd.rating[1] + "</td>" + "</tr>" +
-                "<td>" + "Restaurant:" + "</td>" +
-                "<td>" + fd.restaurant[1] + "</td>" + "</tr>" +
-                "<td>" + "Favorite:" + "</td>" +
-                "<td>" + fd.favorite[1] + "</td>" + "</tr>" +
-                "<td>" + "Comment:" + "</td>" +
-                "<td>" + fd.comment[1] + "</td>");
+    for(var i=0, l=localStorage.length; i<l;i++){
+			var key = localStorage.key(i),
+				fd = JSON.parse(localStorage.getItem(key)),
+				createSubList = $('<div></div>'),
+				createLi = $(
+        
+               "<p>" +"Dish:"+ " " + fd.dish[1] + "</p>" + 
+               "<p>" + "Category:" + " " + fd.category[1] + "</p>" + 
+               "<p>" + "Rating:" + " " + fd.rating[1] + "</p>" + 
+               "<p>" + "Restaurant:" + " " + fd.restaurant[1] + "</p>" + 
+               "<p>" + "Favorite:" + " " + fd.favorite[1] + "</p>" + 
+               "<p>" + "Comment:" + " " + fd.comment[1] + "</p>" );
 
 
-             $("#view").html(createSubLi);
+          $("#view").append(createSubList);
+          createLi.appendTo(createSubList);
+      
 
-};
+   
+
+    $("#clear").appendTo('#view');
+    
+    //createEditButton.appendTo("#view");
+    //$(".btnEdit").on("click", editThis);
+    //createDeleteButton.appendTo("#view");
+   // $(".btnDelete").on("click", deleteThis);
+    }
+
+
 
 console.log(localStorage);
 });

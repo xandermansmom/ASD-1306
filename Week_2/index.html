@@ -25,9 +25,6 @@
 		<meta name="MobileOptimized" content="320">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-       <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
- 		<meta http-equiv="cleartype" content="on">
-	   <!--[if IEMobile]>  <meta http-equiv="cleartype" content="on">  <![endif]-->
 
 		<!-- JavaScript is normally at the end of the body, except for Modernizr which enables HTML5 elements & feature detects--> 
 		<script src="js/libs/modernizr-latest.js"></script>
@@ -77,7 +74,7 @@
                 <li data-role="fieldcontain">
                    <label>Type of Dish</label>
                     <select name = "cat" id="cat" class="required" autofocus required>
-                        <option value="Choose">--Choose Dish Type--</option>
+                        <option value="">--Choose Type of Dish--</option>
                         <option value="Main Course">Main Course</option>
                         <option value="Side Order">Side Order</option>
                         <option value="Soups and Salads">Soups and Salads</option>
@@ -136,14 +133,13 @@
              <h1>View List</h1>      
         </header>
         <div data-role="listview" data-inset="true" data-filter="true" data-filter-reveal="true">
-            <input type="button" value="Clear Local Storage" id="clear" data-inline="true" data-theme="a"/>
-            
-    
-            </div>
-          <div id="body">
-           <!-- <input type="button" value="Edit Record" id="btnEdit" data-inline="true" data-theme="a"/> 
-            <input type="button" value="Delete Record" id="btnDelete" data-icon="delete" data-inline="true" data-theme="a" />-->
-          </div>
+            <input type="button" value="Clear Local Storage" id="clear" data-inline="true" data-theme="a"/>  
+        </div>
+
+        <div id="data"><div>
+            <input type="button" value="Edit Record" id="btnEdit" data-inline="true" data-theme="a"/> 
+            <input type="button" value="Delete Record" id="btnDelete" data-icon="delete" data-inline="true" data-theme="a" />
+          
            
 
         <footer data-role="footer" data-position="fixed" data-theme="a">
