@@ -78,9 +78,8 @@ var deleteThis = function (foodId) {
     }
 };
 
-
 //CLEAR LOCAL
-var clearData = $("#clear").on("click ", function () {
+var clearData = function () {
     //Alert if no data in local storage
     if (localStorage.length === 0) {
         alert("There is no data to clear.");
@@ -89,12 +88,12 @@ var clearData = $("#clear").on("click ", function () {
         if (confirm("Are you sure you want to delete all the entries ? ")) {
             localStorage.clear();
             alert("All data is cleared.");
-            location.reload();
-            return false;
+            $.mobile.changePage("#home");
+			return false;
         }
     }
 
-});
+};
 
 //HOME PAGE
 $('#home').on('pageinit', function(){
@@ -162,7 +161,7 @@ $('#view').on('pageinit', function (foodId, food) {
                 
 
                 createDeleteButton = $("<a></a>").attr({
-                    "href": "#",
+                    "href": "#view",
                     "id": "deleteButton",
                     "data-role": "button",
                     "data-theme": "a",
@@ -171,24 +170,41 @@ $('#view').on('pageinit', function (foodId, food) {
                     "data-key": key
             })
                 .html("Delete Record");
+
+                createClearButton = $("<a></a>").attr({
+                	"href": "#view",
+                	"id": "clearButton",
+                	"data-role": "button",
+                	"data-theme": "a",
+                	"data-ajax": "false",
+                	"data-inline": "true",
+                	"data-key": key
+            })
                 
-
-
+    
+          //Append form data to view page
           $("#view").append(createSubList);
           createLi.appendTo(createSubList);
+
+          //Create edit button and attach to each individual record
           createEditButton.appendTo(createSubList);
-          $(".btnEdit").on("click", editThis);
+          $(".editButton").on("click", editThis);
+
+
+          //Create delete button and attach to each individual record
           createDeleteButton.appendTo(createSubList);
-          $(".btnDelete").on("click", deleteThis);
-          clearData.appendTo(createLi);
-         
+          $(".deleteButton").on("click", deleteThis);
 
-   
-    }
 
+          //Add Clear Local Storage Button to View page
+          createClearButton.appendTo("#view");
+          $(".clearButton").on("click", clearData);
+
+   };
 
 
 console.log(localStorage);
+
 });
 
 
