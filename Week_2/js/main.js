@@ -29,13 +29,55 @@ var saveData = function (key) {
     // Use Stringify to convert food obejct to a string
     localStorage.setItem(foodId, JSON.stringify(food));
     alert("Entry is saved!");
-			window.location.reload("#");
-			return false;
-	};
+            window.location.reload("#");
+            return false;
+    };
 
 //EDIT
+var editThis = function (foodId) {
+
+    var value = localStorage.getItem(foodId);
+    var fd = JSON.parse(value);
+
+    //populate fields with localStorage data
+
+    $('dish').value = fd.dish[1];
+    $('cat').value = fd.cat[1];
+    $('rate').value = fd.rate[1];
+    $('restaurant').value = fd.restaurant[1];
+    $('favorite').is(':checked');
+    $('comment').value = fd.comment[1];
+
+    //Change Submit Button value to Edit Button
+    $('#save').val = "Edit Data";
+    var editSubmit = $("#save");
+    //Clear items in HTML cache
+    value.innerHTML = "";
+    if (saveData(foodId)) {
+        editSubmit.key = foodId;
+
+        alert("The data was edited.");
+        $.mobile.changePage("#home");
+        return false;
+    }
+};
+
 
 //DELETE
+var deleteThis = function (foodId) {
+    if (localStorage.length === 0) {
+        alert("There are no records to delete.");
+    } else {
+        if (confirm("Are you sure you want to delete this record?")) {
+            localStorage.removeItem(foodId);
+            alert("The record has been deleted.");
+            location.reload();
+            return false;
+
+        }
+    }
+};
+
 
 //CLEAR LOCAL
 var clearData = $("#clear").on("click ", function () {
@@ -94,10 +136,10 @@ $('#view').on('pageinit', function (foodId, food) {
     $.mobile.changePage("#view");
 
     for(var i=0, l=localStorage.length; i<l;i++){
-			var key = localStorage.key(i),
-				fd = JSON.parse(localStorage.getItem(key)),
-				createSubList = $('<div></div>'),
-				createLi = $(
+            var key = localStorage.key(i),
+                fd = JSON.parse(localStorage.getItem(key)),
+                createSubList = $('<div></div>'),
+                createLi = $(
         
                "<p>" +"Dish:"+ " " + fd.dish[1] + "</p>" + 
                "<p>" + "Category:" + " " + fd.category[1] + "</p>" + 
@@ -106,19 +148,42 @@ $('#view').on('pageinit', function (foodId, food) {
                "<p>" + "Favorite:" + " " + fd.favorite[1] + "</p>" + 
                "<p>" + "Comment:" + " " + fd.comment[1] + "</p>" );
 
+              
+                createEditButton = $("<a></a>").attr({
+                    "href": "addForm",
+                    "id": "editButton",
+                    "data-role": "button",
+                    "data-theme": "a",
+                    "data-ajax": "false",
+                    "data-inline": "true",
+                    "key": key
+            })
+                .html("Edit Record");
+                
+
+                createDeleteButton = $("<a></a>").attr({
+                    "href": "#",
+                    "id": "deleteButton",
+                    "data-role": "button",
+                    "data-theme": "a",
+                    "data-ajax": "false",
+                    "data-inline": "true",
+                    "data-key": key
+            })
+                .html("Delete Record");
+                
+
 
           $("#view").append(createSubList);
           createLi.appendTo(createSubList);
-      
+          createEditButton.appendTo(createSubList);
+          $(".btnEdit").on("click", editThis);
+          createDeleteButton.appendTo(createSubList);
+          $(".btnDelete").on("click", deleteThis);
+          clearData.appendTo(createLi);
+         
 
    
-
-    $("#clear").appendTo('#view');
-    
-    //createEditButton.appendTo("#view");
-    //$(".btnEdit").on("click", editThis);
-    //createDeleteButton.appendTo("#view");
-   // $(".btnDelete").on("click", deleteThis);
     }
 
 
