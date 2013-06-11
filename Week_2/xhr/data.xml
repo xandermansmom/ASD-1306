@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<food>
+	<food>
+		<dish>Black Fire New York Strip</dish>
+		<category>Main Course</category>
+		<rating>4</rating>
+		<restaurant>Ruby Tuesdays</restaurant>
+		<favorite>true</favorite>
+		<comment>Tender and Juicy</comment>
+		
+
+	</food>
+
+	<food>
+		<dish>Cream Cheese Rangoon</dish>
+		<category>Appetizer</category>
+		<rating>3</rating>
+		<restaurant>Panda Express</restaurant>
+		<favorite>false</favorite>
+		<comment>Pretty tasty</comment>
+		
+
+	</food>
+
+	<food>
+		<dish>Mascarpone Bread Pudding</dish>
+		<category>Dessert</category>
+		<rating>2</rating>
+		<restaurant>Johnny Carino's</restaurant>
+		<favorite>false</favorite>
+		<comment>Not worth the calories</comment>
+		
+
+	</food>
+
+	<food>
+		<dish>Pecan Crusted Chicken Salad</dish>
+		<category>Soups and Salads</category>
+		<rating>3</rating>
+		<restaurant>Applebees</restaurant>
+		<favorite>false</favorite>
+		<comment>Would have been better without the fruit </comment>
+		
+
+	</food>
+
+	<food>
+		<dish>Macaroni and Cheese</dish>
+		<category>Side Dish</category>
+		<rating>1</rating>
+		<restaurant>Luby's</restaurant>
+		<favorite>false</favorite>
+		<comment>The cheese was congealed</comment>
+	
+	</food>
+
+
+</food>

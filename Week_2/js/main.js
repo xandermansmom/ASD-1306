@@ -64,15 +64,17 @@ var editThis = function (foodId) {
 
 
 //DELETE
-var deleteThis = function (foodId) {
+var deleteThis = function (foodId, food) {
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
     } else {
         if (confirm("Are you sure you want to delete this record?")) {
-            localStorage.removeItem(foodId);
+			localStorage.removeItem($(this).data('key'));
             alert("The record has been deleted.");
             location.reload();
             return false;
+            } else {
+					alert("Record was not deleted.");
 
         }
     }
@@ -149,7 +151,7 @@ $('#view').on('pageinit', function (foodId, food) {
 
               
                 createEditButton = $("<a></a>").attr({
-                    "href": "addForm",
+                    "href": "#add",
                     "id": "editButton",
                     "data-role": "button",
                     "data-theme": "a",
@@ -171,15 +173,6 @@ $('#view').on('pageinit', function (foodId, food) {
             })
                 .html("Delete Record");
 
-                createClearButton = $("<a></a>").attr({
-                	"href": "#view",
-                	"id": "clearButton",
-                	"data-role": "button",
-                	"data-theme": "a",
-                	"data-ajax": "false",
-                	"data-inline": "true",
-                	"data-key": key
-            })
                 
     
           //Append form data to view page
@@ -188,18 +181,15 @@ $('#view').on('pageinit', function (foodId, food) {
 
           //Create edit button and attach to each individual record
           createEditButton.appendTo(createSubList);
-          $(".editButton").on("click", editThis);
+          $("#editButton").on("click", editThis);
 
 
           //Create delete button and attach to each individual record
           createDeleteButton.appendTo(createSubList);
-          $(".deleteButton").on("click", deleteThis);
+          $("#deleteButton").on("click", deleteThis);
 
-
-          //Add Clear Local Storage Button to View page
-          createClearButton.appendTo("#view");
-          $(".clearButton").on("click", clearData);
-
+          //Run clearData function                  
+          $("#clear").on("click", clearData);
    };
 
 

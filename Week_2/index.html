@@ -130,9 +130,12 @@
     </section>
     <section id="view" data-role="page" data-add-back-btn="true">
         <header data-role="header">
-                   
              <h1>View List</h1>      
         </header>
+
+        <div>
+            <input type="button" value="Clear Local Storage" id="clear" data-inline="true" data-theme="a"/>  
+        </div>
 
  
         <div data-role="listview" data-inset="true" data-filter="true" data-filter-reveal="true">
@@ -146,7 +149,7 @@
                     </li>
                     <li><a href="#add" data-icon="plus" data-transition="fade" data-inline="true">Add</a>
                     </li>
-                    <li><a href="#" data-icon="alert" id="clearButton">Clear Local Storage</a></li>
+                    <li><a href="#view" data-icon="info"data-transition="fade" data-inline="true">View</a>
 
                 </ul>
             </div>
