@@ -6,14 +6,15 @@
 //GLOBAL VARIABLES
 
 //SAVE
-var saveData = function (key) {
-    var foodId = Math.floor(Math.random() * 100000001);
-    if (!key) {
+var editKey = "";
+var saveData = function () {
+	if (!editKey){
+    var foodId = Math.floor(Math.random() * 100000001);    
 
     } else {
 
         //Set id to existing key to allow for editing instead of creating new data
-        foodId = key;
+    var id = editKey;
     }
 
     var food = {};
@@ -34,10 +35,8 @@ var saveData = function (key) {
     };
 
 //EDIT
-var editThis = function (foodId) {
-
-    var value = localStorage.getItem(foodId);
-    var fd = JSON.parse(value);
+var editThis = function (editKey) {
+    var fd = JSON.parse(editKey);
 
     //populate fields with localStorage data
 
@@ -48,23 +47,40 @@ var editThis = function (foodId) {
     $('favorite').is(':checked');
     $('comment').value = fd.comment[1];
 
-    //Change Submit Button value to Edit Button
-    $('#save').val = "Edit Data";
-    var editSubmit = $("#save");
-    //Clear items in HTML cache
-    value.innerHTML = "";
-    if (saveData(foodId)) {
-        editSubmit.key = foodId;
+    $('#save').prev('.ui-btn-inner').children('.ui-btn-text').html('Update');
+		$("#save").val('Update ').data('key', editKey); // c
+    };
 
-        alert("The data was edited.");
-        $.mobile.changePage("#home");
-        return false;
-    }
-};
+
+var autoFillData = function(){
+        for(var n in sampleData){
+            var id = Math.floor(Math.random()*100000001);
+            localStorage.setItem(id, JSON.stringify(sampleData[n]));
+        }
+    };  
+
+
+	$('input').on("focus", function() {
+		$(this).parent().addClass('highlight');
+		return false;
+	});
+	$('input').on("blur", function(){
+		$(this).parent().removeClass('highlight');
+		return false;
+	});
+	$("textarea").on("focus", function() {
+		$(this).parent().addClass('highlight');
+		return false;
+	});
+	$("textarea").on("blur", function(){
+		$(this).parent().removeClass('highlight');
+		return false;
+	});
+
 
 
 //DELETE
-var deleteThis = function (foodId, food) {
+var deleteThis = function () {
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
     } else {
@@ -127,7 +143,7 @@ $('#home').on('pageinit', function(){
 });
 
  //VIEW PAGE--only showing first form entry
-$('#view').on('pageinit', function (foodId, food) {
+$('#view').on('pageinit', function (key) {
 
     if (localStorage.length === 0) {
         alert("There is no data in local storage so default data was added.");
@@ -148,9 +164,8 @@ $('#view').on('pageinit', function (foodId, food) {
                "<p>" + "Restaurant:" + " " + fd.restaurant[1] + "</p>" + 
                "<p>" + "Favorite:" + " " + fd.favorite[1] + "</p>" + 
                "<p>" + "Comment:" + " " + fd.comment[1] + "</p>" );
-
-              
-                createEditButton = $("<a></a>").attr({
+            
+              var createEditButton = $("<button data-key='"+key+"'><a href='#add'>Edit Record</a></button>").attr({
                     "href": "#add",
                     "id": "editButton",
                     "data-role": "button",
@@ -161,8 +176,7 @@ $('#view').on('pageinit', function (foodId, food) {
             })
                 .html("Edit Record");
                 
-
-                createDeleteButton = $("<a></a>").attr({
+               var createDeleteButton = $("<button data-key='"+key+"'><a href='#add'>Delete Record</a></button>").attr({
                     "href": "#view",
                     "id": "deleteButton",
                     "data-role": "button",
@@ -198,7 +212,3 @@ console.log(localStorage);
 });
 
 
-
-
-
- 
