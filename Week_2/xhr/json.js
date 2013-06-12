@@ -1,5 +1,6 @@
- [
-    {
+ {
+"food": [
+	{
         "dish": "Chocolate Lava Cake",
         "category": "Dessert",
         "rating": "4",
@@ -39,4 +40,5 @@
         "favorite": "false",
         "comment": "It is a good side for their BBQ."
     }
-]
+   ]
+}
