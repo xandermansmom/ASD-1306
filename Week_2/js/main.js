@@ -54,7 +54,7 @@ console.log($(this).attr('data-key'));
     $('#restaurant').val(fd.restaurant[1]);
     //$('#favorite').is(':checked').checkboxradio("refresh");
     //$('#favorite').is(':checked').checkboxradio("refresh");
-    if (fd.favorite === "true") { $("#favorite").attr("true", "true")}("refresh"); 
+    if (fd.favorite[1] === true) { $("#favorite").attr('checked', true).checkboxradio('refresh')};
     $('#comment').val(fd.comment[1]);
     $('#save').prev('.ui-btn-inner').children('.ui-btn-text').html('Update');
     $("#save").val('Update').data('key');
