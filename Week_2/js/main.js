@@ -28,13 +28,16 @@ var autoFillData = function () {
                     console.log('JSON loaded');
                     console.log(data);
                     for (var n in data) {
-                        var id = Math.floor(Math.random() * 1000000);
+                      var id = Math.floor(Math.random() * 1000000);
                         localStorage.setItem(id, JSON.stringify(data[n]));
 
                     }
                 }
+            },
+            error: function(error, parseerror) {
+                console.log('Error: ' + error + '\nParse Error: ' + parseerror);
             }
-        });
+    });
 
 
 
@@ -113,8 +116,8 @@ var saveData = function (key) {
 //EDIT --is not replacing data but creating a new form data
 var editThis = function () {
     var key = $(this).data('key');
-    var fd = JSON.parse(localStorage.getItem($(this).attr('key')));
-    console.log($(this).attr('data-key'));
+    var fd = JSON.parse(localStorage.getItem($(this).data('key')));
+    console.log($(this).data('key'));
     //populate fields with localStorage data
 
     $.mobile.changePage("#add");
@@ -154,7 +157,6 @@ function deleteThis() {
 function clearData() {
     //Hide Clear Button & Alert if no data in local storage
     if (localStorage.length === 0) {
-        $('#clear').hide();
         alert("There is no data to delete.");
     } else {
         //If there is data to clear, confirm you want to delete all local storage
@@ -201,13 +203,28 @@ $('#add').on('pageinit', function (e) {
 $('#view').on('pageinit', function () {    
      
     if (localStorage.length === 0) {
-        alert("There is no data in local storage. Please choose JSON or XML data to load.");
-        $('#getJSON').on('click', autoFillData());
-        $('#getXML').on('click', autoFillData());
+        $('#clearButton').hide();
+        alert("There is no data in local storage. Please choose JSON or XML data to load.");          
+    } else { 
+        if (localStorage.length!==0){
+            $("#getJSON").hide();
+            $("#getXML").hide();
+        }
     }
 
     $.mobile.changePage("#view");
 
+
+       $('#getJSON').on('click', function(){
+         autoFillData();
+        console.log('click');
+        });
+        
+            
+        $('#getXML').on('click', function() {
+        autoFillData();
+        console.log('click');
+        });
     for (var i = 0, l = localStorage.length; i < l; i++) {
         var key = localStorage.key(i),
             fd = JSON.parse(localStorage.getItem(key)),
