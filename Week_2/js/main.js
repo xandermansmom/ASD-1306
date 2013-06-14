@@ -6,15 +6,15 @@
 //GLOBAL VARIABLES
 
 //SAVE--works
+
 var editKey = "";
-var saveData = function () {
+var saveData = function (editKey) {
     if (!editKey) {
-        var foodId = Math.floor(Math.random() * 100000001);
+         foodId = Math.floor(Math.random() * 100000001);
 
     } else {
 
-        //Set id to existing key to allow for editing instead of creating new data
-        var id = editKey;
+         foodId = editKey;
     }
 
     var food = {};
@@ -28,7 +28,7 @@ var saveData = function () {
     food.comment = ["Comment:", $("#comment").val()];
 
     // Use Stringify to convert food obejct to a string
-    localStorage.setItem(editKey, JSON.stringify(food));
+    localStorage.setItem(id, JSON.stringify(food));
     alert("Entry is saved!");
     window.location.reload("#");
     return false;
@@ -51,16 +51,15 @@ var editThis = function (editKey) {
     $("#save").val('Update').data('key', editKey);
 };
 
-
 //DELETE --works
 var deleteThis = function () {
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
     } else {
         if (confirm("Are you sure you want to delete this record?")) {
-            localStorage.removeItem($(this).data('key'));
+            localStorage.removeItem($(this).data('editKey'));
             alert("The record has been deleted.");
-            location.reload();
+            location.reload("#");
             return false;
         } else {
             alert("Record was not deleted.");
@@ -116,7 +115,7 @@ $('#add').on('pageinit', function (e) {
 });
 
 //VIEW PAGE--works
-$('#view').on('pageinit', function (key) {
+$('#view').on('pageinit', function (editKey) {
 
     if (localStorage.length === 0) {
         alert("There is no data in local storage so default data was added.");
@@ -126,9 +125,11 @@ $('#view').on('pageinit', function (key) {
     $.mobile.changePage("#view");
 
     for (var i = 0, l = localStorage.length; i < l; i++) {
-        var fdKey = localStorage.key(i),
+        var key = localStorage.key(i),
             fd = JSON.parse(localStorage.getItem(key)),
             createSubList = $('<div></div>'),
+            //edit button is opening blank form field and not local storage
+
             createLi = $(
 
                 "<p>" + "Dish:" + " " + fd.dish[1] + "</p>" +
@@ -139,8 +140,17 @@ $('#view').on('pageinit', function (key) {
                 "<p>" + "Comment:" + " " + fd.comment[1] + "</p>");
 
 
-        //edit button is opening blank form field and not local storage
-        var createEditButton = $("<button data-key='" + key + "'><a href='#add'>Edit Record</a></button>").attr({
+
+        //Append form data to view page
+        $("#view").append(createSubList);
+        createLi.appendTo(createSubList);
+
+
+        //Run clearData function                  
+        $("#clear").on("click", clearData);
+
+
+        var createEditButton = $("<button data-key='" + key + "'></button>").attr({
             "href": "#add",
                 "id": "editButton",
                 "data-role": "button",
@@ -150,85 +160,69 @@ $('#view').on('pageinit', function (key) {
                 "key": editKey
         })
             .html("Edit Record");
+        //Attach edit button to individual records
+        createEditButton.appendTo(createSubList);
+        $("#editButton").on("click", editThis);
 
         //delete button works, deletes individual records
-        var createDeleteButton = $("<button data-key='" + key + "'><a href='#add'>Delete Record</a></button>").attr({
+        var createDeleteButton = $("<button data-key='" + editKey + "'></button>").attr({
             "href": "#view",
                 "id": "deleteButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
                 "data-inline": "true",
-                "data-key": key
+                "data-key": editKey
         })
             .html("Delete Record");
-
-
-        //AJAX CALL FOR JSON DATA
-        $(function () {
-            $.ajax({
-                url: 'xhr/json.js',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    for (var i = 0, j = data.food.length; i < j; i++) {
-                        var fd = data.food[i];
-                         $('' +
-                            '<div class = "content">' +
-                            "<p>" + fd.dish + "</p>" +
-                            "<p>" + fd.category + "</p>" +
-                            "<p>" + fd.rating + "</p>" +
-                            "<p>" + fd.restaurant + "</p>" +
-                            "<p>" + fd.favorite + "</p>" +
-                            "<p>" + fd.comment + "</p>" +
-                            '</div>').appendTo('#fdContent'); 
-                       
-                    }
-                }
-                
-            });
-
-        });
-
-        //AJAX CALL FOR XML DATA
-        $(function () {
-            $.ajax({
-                url: 'xhr/data.xml',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    for (var i = 0, j = data.food.length; i < j; i++) {
-                        var fd = data.food[i];
-                        $('' +
-                            '<div class = "content">' +
-                            "<p>" + fd.dish + "</p>" +
-                            "<p>" + fd.category + "</p>" +
-                            "<p>" + fd.rating + "</p>" +
-                            "<p>" + fd.restaurant + "</p>" +
-                            "<p>" + fd.favorite + "</p>" +
-                            "<p>" + fd.comment + "</p>" +
-                            '</div>').appendTo('#fdContent');
-                    }
-                }
-            });
-
-        });
-
-
-        //Append form data to view page
-        $("#view").append(createSubList);
-        createLi.appendTo(createSubList);
-
-        //Create edit button and attach to each individual record
-        createEditButton.appendTo(createSubList);
-        $("#editButton").on("click", editThis);
-
-
-        //Create delete button and attach to each individual record
+        //Attach delete button to individual records
         createDeleteButton.appendTo(createSubList);
         $("#deleteButton").on("click", deleteThis);
+    }
+    //AJAX CALL FOR JSON DATA
+    $.ajax({
+        url: 'xhr/json.js',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            for (var i = 0, j = data.length; i < j; i++) {
+                var fd = data.length[i];
+                $('' +
+                    '<div class = "content">' +
+                    "<p>" + fd.dish + "</p>" +
+                    "<p>" + fd.category + "</p>" +
+                    "<p>" + fd.rating + "</p>" +
+                    "<p>" + fd.restaurant + "</p>" +
+                    "<p>" + fd.favorite + "</p>" +
+                    "<p>" + fd.comment + "</p>" +
+                    '</div>').appendTo('#fdContent');
 
-        //Run clearData function                  
-        $("#clear").on("click", clearData);
+            }
+
+        }
+    });
+
+
+    //AJAX CALL FOR XML DATA
+
+    $.ajax({
+        url: 'xhr/data.xml',
+        type: 'GET',
+        dataType: 'xml',
+        success: function (data) {
+            for (var i = 0, j = data.length; i < j; i++) {
+                var fd = data.length[i];
+                $('' +
+                    '<div class = "content">' +
+                    "<p>" + fd.dish + "</p>" +
+                    "<p>" + fd.category + "</p>" +
+                    "<p>" + fd.rating + "</p>" +
+                    "<p>" + fd.restaurant + "</p>" +
+                    "<p>" + fd.favorite + "</p>" +
+                    "<p>" + fd.comment + "</p>" +
+                    '</div>')
+                    .appendTo("#fdContent");
+            }
+        }
     });
 });
