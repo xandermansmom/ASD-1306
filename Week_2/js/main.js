@@ -49,8 +49,8 @@ console.log($(this).attr('data-key'));
 
   
     $('#dish').val(fd.dish[1]);
-    $('#cat').val(fd.category[1]);
-    $('#rate').val(fd.rating[1]);
+    $('#cat').val(fd.category[1]).selectmenu("refresh");
+    $('#rate').val(fd.rating[1]).selectmenu("refresh");
     $('#restaurant').val(fd.restaurant[1]);
     $('#favorite').is(':checked');
     $('#comment').val(fd.comment[1]);
