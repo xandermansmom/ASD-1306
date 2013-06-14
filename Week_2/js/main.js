@@ -160,7 +160,7 @@ $('#view').on('pageinit', function () {
 
         var createEditButton = $("<button data-key='" + key + "'></button>").attr({
                 "href": "#add",
-                "id": "editButton",
+                "name": "editButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
@@ -170,12 +170,12 @@ $('#view').on('pageinit', function () {
             .html("Edit Record");
         //Attach edit button to individual records
         createEditButton.appendTo(createSubList);
-        $("#editButton").on("click", editThis);
+        $(".editButton").on("click", editThis);
 
         //delete button works, deletes individual records
         var createDeleteButton = $("<button data-key='" + key + "'></button>").attr({
                 "href": "#view",
-                "id": "deleteButton",
+                "name": "deleteButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
@@ -185,7 +185,7 @@ $('#view').on('pageinit', function () {
             .html("Delete Record");
         //Attach delete button to individual records
         createDeleteButton.appendTo(createSubList);
-        $("#deleteButton").on("click", deleteThis);
+        $(".deleteButton").on("click", deleteThis);
     }
     //AJAX CALL FOR JSON DATA
     $.ajax({
