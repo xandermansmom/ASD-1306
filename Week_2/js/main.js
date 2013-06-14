@@ -52,9 +52,10 @@ console.log($(this).attr('data-key'));
     $('#cat').val(fd.category[1]).selectmenu("refresh");
     $('#rate').val(fd.rating[1]).selectmenu("refresh");
     $('#restaurant').val(fd.restaurant[1]);
-    $('#favorite').is(':checked');
+    //$('#favorite').is(':checked').checkboxradio("refresh");
+    //$('#favorite').is(':checked').checkboxradio("refresh");
+    if (fd.favorite === "true") { $("#favorite").attr("true", "true")}("refresh"); 
     $('#comment').val(fd.comment[1]);
-
     $('#save').prev('.ui-btn-inner').children('.ui-btn-text').html('Update');
     $("#save").val('Update').data('key');
 };
