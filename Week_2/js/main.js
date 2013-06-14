@@ -104,7 +104,6 @@ $('#add').on('pageinit', function (e) {
     $('#addForm').validate({
         //Run if validation errors occur
         invalidHandler: function (form, validator) {
-
             var empty = '';
             if (empty === true) {
                 e.preventDefault();
@@ -160,7 +159,7 @@ $('#view').on('pageinit', function () {
 
         var createEditButton = $("<button data-key='" + key + "'></button>").attr({
                 "href": "#add",
-                "name": "editButton",
+                "class": "editButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
@@ -175,7 +174,7 @@ $('#view').on('pageinit', function () {
         //delete button works, deletes individual records
         var createDeleteButton = $("<button data-key='" + key + "'></button>").attr({
                 "href": "#view",
-                "name": "deleteButton",
+                "class": "deleteButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
