@@ -1,28 +1,103 @@
 //Michele Laramore
 //ASD 1306
 
-
-
 //GLOBAL VARIABLES
+
+var autoFillData = function () {
+    // gets button name to determine which type of AJAX call to make
+    var type = $(this).attr('id');
+
+    //AJAX CALL FOR JSON DATA
+    if (type === 'getJSON') {
+        $.ajax({
+            url: 'xhr/json.js',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                for (var i = 0, j = data.length; i < j; i++) {
+                    var fd = data[i];
+                    $('' +
+                        '<div class = "content">' +
+                        "<p>" + fd.dish + "</p>" +
+                        "<p>" + fd.category + "</p>" +
+                        "<p>" + fd.rating + "</p>" +
+                        "<p>" + fd.restaurant + "</p>" +
+                        "<p>" + fd.favorite + "</p>" +
+                        "<p>" + fd.comment + "</p>" +
+                        '</div>').appendTo('#jsonContent');
+                    console.log('JSON loaded');
+                    console.log(data);
+                    for (var n in data) {
+                        var id = Math.floor(Math.random() * 1000000);
+                        localStorage.setItem(id, JSON.stringify(data[n]));
+
+                    }
+                }
+            }
+        });
+
+
+
+    } else if (type === 'getXML') {
+        //AJAX CALL FOR XML DATA
+
+        $.ajax({
+            url: 'xhr/data.xml',
+            type: 'GET',
+            dataType: 'xml',
+            success: function (data) {
+                console.log('XML Loaded');
+                console.log(data);
+                $(data).find('food').each(function () {
+                    var item = $(this);
+                    var string = "";
+                   
+                    string += '{"Dish":"' + item.find('dish').text() + '",';
+                    string += '""Category:"' + item.find('category').text() + '",';
+                    string += '"Rating":"' + item.find('rating').text() + '",';
+                    string += '"Restaurant":"' + item.find('restaurant').text() + '",';
+                    string += '"Favorite":"' + item.find('favorite').text() + '",';
+                    string += '"Comment":"' + item.find('comment').text() + '"}';
+                    console.log(string);
+
+
+                    var id = Math.floor(Math.random() * 1000000);
+                    localStorage.setItem(id, string);
+
+                });
+            }
+        });
+
+    }
+
+
+
+    $('#add').on('pageinit', function () {
+        $('#getJSON').on('click', autoFillData);
+        $('#getXML').on('click', autoFillData);
+    });
+};
+
+
 
 //SAVE--works
 
 
- function saveData (key) {
+var saveData = function (key) {
 
     var foodId,
-        food;
+    food;
 
-  if (!key){
+    if (!key) {
 
-         foodId = Math.floor(Math.random() * 100000001);
+        foodId = Math.floor(Math.random() * 100000001);
 
     } else {
 
-       foodId = key;
+        foodId = key;
     }
 
-     food = {};
+    food = {};
     //Gather form field values and store in an object
     //Object properties contain an array with the form label and input value
     food.dish = ["Add a Dish:", $("#dish").val()];
@@ -39,31 +114,31 @@
     return false;
 };
 
- function autoFillData (){
-    $(".content").append();
 
- };
 
 //EDIT --is not replacing data but creating a new form data
- function editThis() {
-    var fd = JSON.parse(localStorage.getItem($(this).attr('data-key')));
-console.log($(this).attr('data-key')); 
-    //populate fields with localStorage data
-       
-     $.mobile.changePage("#add");
+var editThis = function () {
+    //var key = $(this).data('key');
+    //var fd = JSON.parse(localStorage.getItem($(this).attr('key')));
+    var fd = JSON.parse(localStorage.getItem($(this).data('key')));
 
-  
+    //populate fields with localStorage data
+
+    $.mobile.changePage("#add");
+
+
     $('#dish').val(fd.dish[1]);
     $('#cat').val(fd.category[1]).selectmenu("refresh");
     $('#rate').val(fd.rating[1]).selectmenu("refresh");
     $('#restaurant').val(fd.restaurant[1]);
-    //$('#favorite').is(':checked').checkboxradio("refresh");
-    //$('#favorite').is(':checked').checkboxradio("refresh");
-    if (fd.favorite[1] === true) { $("#favorite").attr('checked', true).checkboxradio('refresh')};
+    if (fd.favorite[1] === true) {
+        $("#favorite").attr('checked', true).checkboxradio('refresh');
+    }
     $('#comment').val(fd.comment[1]);
     $('#save').prev('.ui-btn-inner').children('.ui-btn-text').html('Update');
     $("#save").val('Update').data('key');
 };
+
 
 //DELETE --works
 function deleteThis() {
@@ -80,10 +155,10 @@ function deleteThis() {
 
         }
     }
-};
+}
 
 //CLEAR LOCAL--works
-function clearData () {
+function clearData() {
     //Alert if no data in local storage
     if (localStorage.length === 0) {
         alert("There is no data to clear.");
@@ -97,7 +172,7 @@ function clearData () {
         }
     }
 
-};
+}
 
 //HOME PAGE
 $('#home').on('pageinit', function () {
@@ -119,7 +194,7 @@ $('#add').on('pageinit', function (e) {
 
         //Run if valid       
         submitHandler: function (form) {
-             saveData();
+            saveData();
             alert("Submitting Form!");
             location.reload(true);
         }
@@ -164,7 +239,7 @@ $('#view').on('pageinit', function () {
 
 
         var createEditButton = $("<button data-key='" + key + "'></button>").attr({
-                "href": "#add",
+            "href": "#add",
                 "class": "editButton",
                 "data-role": "button",
                 "data-theme": "a",
@@ -179,7 +254,7 @@ $('#view').on('pageinit', function () {
 
         //delete button works, deletes individual records
         var createDeleteButton = $("<button data-key='" + key + "'></button>").attr({
-                "href": "#view",
+            "href": "#view",
                 "class": "deleteButton",
                 "data-role": "button",
                 "data-theme": "a",
@@ -192,49 +267,5 @@ $('#view').on('pageinit', function () {
         createDeleteButton.appendTo(createSubList);
         $(".deleteButton").on("click", deleteThis);
     }
-    //AJAX CALL FOR JSON DATA
-    $.ajax({
-        url: 'xhr/json.js',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            for (var i = 0, j = data.length; i < j; i++) {
-                var fd = data[i];
-                $('' +
-                    '<div class = "content">' +
-                    "<p>" + fd.dish + "</p>" +
-                    "<p>" + fd.category + "</p>" +
-                    "<p>" + fd.rating + "</p>" +
-                    "<p>" + fd.restaurant + "</p>" +
-                    "<p>" + fd.favorite + "</p>" +
-                    "<p>" + fd.comment + "</p>" +
-                    '</div>').appendTo('#jsonContent');
 
-            }
-
-        }
-    });
-
-
-    //AJAX CALL FOR XML DATA
-
-    $.ajax({
-        url: 'xhr/data.xml',
-        type: 'GET',
-        dataType: 'xml',
-        success: function (data) {
-            for (var i = 0, j = data.length; i < j; i++) {
-                var fd = data[i];
-                $('' +
-                    '<div class = "content">' +
-                    "<p>" + fd.dish + "</p>" +
-                    "<p>" + fd.category + "</p>" +
-                    "<p>" + fd.rating + "</p>" +
-                    "<p>" + fd.restaurant + "</p>" +
-                    "<p>" + fd.favorite + "</p>" +
-                    "<p>" + fd.comment + "</p>" +
-                    '</div>').appendTo("#xmlContent");
-            }
-        }
-    });
 });
