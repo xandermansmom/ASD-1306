@@ -8,9 +8,11 @@
 //SAVE--works
 
 var editKey = "";
-var saveData = function (editKey) {
+var saveData =
+ function (editKey) {
+    console.log(saveData);
     if (!editKey) {
-         foodId = Math.floor(Math.random() * 100000001);
+        var foodId = Math.floor(Math.random() * 100000001);
 
     } else {
 
@@ -28,36 +30,37 @@ var saveData = function (editKey) {
     food.comment = ["Comment:", $("#comment").val()];
 
     // Use Stringify to convert food obejct to a string
-    localStorage.setItem(id, JSON.stringify(food));
+    localStorage.setItem(foodId, JSON.stringify(food));
     alert("Entry is saved!");
     window.location.reload("#");
     return false;
 };
 
 //EDIT --not working yet
-var editThis = function (editKey) {
-    var fd = JSON.parse(editKey);
-
+var editThis = function(foodId) {
+    var fd = JSON.parse(localStorage.getItem(foodId));
+console.log(editThis);
     //populate fields with localStorage data
-
-    $('dish').value = fd.dish[1];
-    $('cat').value = fd.cat[1];
-    $('rate').value = fd.rate[1];
-    $('restaurant').value = fd.restaurant[1];
-    $('favorite').is(':checked');
-    $('comment').value = fd.comment[1];
+  
+    $('#dish').val(fd.dish[1]);
+    $('#cat').val(fd.cat[1]);
+    $('#rate').val(fd.rate[1]);
+    $('#restaurant').val(fd.restaurant[1]);
+    $('#favorite').is(':checked');
+    $('#comment').val(fd.comment[1]);
 
     $('#save').prev('.ui-btn-inner').children('.ui-btn-text').html('Update');
     $("#save").val('Update').data('key', editKey);
 };
 
 //DELETE --works
-var deleteThis = function () {
+var deleteThis = function (foodId) {
+    console.log(deleteThis);
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
     } else {
         if (confirm("Are you sure you want to delete this record?")) {
-            localStorage.removeItem($(this).data('editKey'));
+            localStorage.removeItem($(this).data('foodId'));
             alert("The record has been deleted.");
             location.reload("#");
             return false;
