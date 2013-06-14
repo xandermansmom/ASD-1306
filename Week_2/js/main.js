@@ -43,8 +43,8 @@ console.log(editThis);
     //populate fields with localStorage data
   
     $('#dish').val(fd.dish[1]);
-    $('#cat').val(fd.cat[1]);
-    $('#rate').val(fd.rate[1]);
+    $('#cat').val(fd.category[1]);
+    $('#rate').val(fd.rating[1]);
     $('#restaurant').val(fd.restaurant[1]);
     $('#favorite').is(':checked');
     $('#comment').val(fd.comment[1]);
