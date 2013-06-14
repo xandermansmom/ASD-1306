@@ -7,19 +7,22 @@
 
 //SAVE--works
 
-var editKey = "";
-var saveData =
- function () {
-    console.log(food);
-    if (!editKey) {
-        var foodId = Math.floor(Math.random() * 100000001);
+
+var saveData = function (key) {
+
+    var foodId,
+        food;
+
+  if (!key){
+
+         foodId = Math.floor(Math.random() * 100000001);
 
     } else {
 
-         foodId = editKey;
+       foodId = key;
     }
 
-    var food = {};
+     food = {};
     //Gather form field values and store in an object
     //Object properties contain an array with the form label and input value
     food.dish = ["Add a Dish:", $("#dish").val()];
@@ -36,12 +39,13 @@ var saveData =
     return false;
 };
 
-//EDIT --not working yet
+//EDIT --is not replacing data but creating a new form data
 var editThis = function() {
     var fd = JSON.parse(localStorage.getItem($(this).attr('data-key')));
 console.log($(this).attr('data-key')); 
     //populate fields with localStorage data
-        $.mobile.changePage("#add");
+       
+     $.mobile.changePage("#add");
 
   
     $('#dish').val(fd.dish[1]);
@@ -52,7 +56,7 @@ console.log($(this).attr('data-key'));
     $('#comment').val(fd.comment[1]);
 
     $('#save').prev('.ui-btn-inner').children('.ui-btn-text').html('Update');
-    $("#save").val('Update').data('key', editKey);
+    $("#save").val('Update').data('key');
 };
 
 //DELETE --works
@@ -110,7 +114,7 @@ $('#add').on('pageinit', function (e) {
 
         //Run if valid       
         submitHandler: function (form) {
-            saveData();
+             saveData();
             alert("Submitting Form!");
             location.reload(true);
         }
@@ -119,7 +123,7 @@ $('#add').on('pageinit', function (e) {
 });
 
 //VIEW PAGE--works
-$('#view').on('pageinit', function (editKey) {
+$('#view').on('pageinit', function () {
 
     if (localStorage.length === 0) {
         alert("There is no data in local storage so default data was added.");
@@ -155,13 +159,13 @@ $('#view').on('pageinit', function (editKey) {
 
 
         var createEditButton = $("<button data-key='" + key + "'></button>").attr({
-            "href": "#add",
+                "href": "#add",
                 "id": "editButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
                 "data-inline": "true",
-                "key": editKey
+                "key": key
         })
             .html("Edit Record");
         //Attach edit button to individual records
@@ -170,7 +174,7 @@ $('#view').on('pageinit', function (editKey) {
 
         //delete button works, deletes individual records
         var createDeleteButton = $("<button data-key='" + key + "'></button>").attr({
-            "href": "#view",
+                "href": "#view",
                 "id": "deleteButton",
                 "data-role": "button",
                 "data-theme": "a",
