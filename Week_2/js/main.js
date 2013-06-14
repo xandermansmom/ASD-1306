@@ -9,7 +9,7 @@
 
 var editKey = "";
 var saveData =
- function (editKey) {
+ function () {
     console.log(saveData);
     if (!editKey) {
         var foodId = Math.floor(Math.random() * 100000001);
@@ -37,8 +37,8 @@ var saveData =
 };
 
 //EDIT --not working yet
-var editThis = function(foodId) {
-    var fd = JSON.parse(localStorage.getItem(foodId));
+var editThis = function() {
+    var fd = JSON.parse(localStorage.getItem($(this).attr('data-key')));
 console.log(editThis);
     //populate fields with localStorage data
   
@@ -54,7 +54,7 @@ console.log(editThis);
 };
 
 //DELETE --works
-var deleteThis = function (foodId) {
+var deleteThis = function () {
     console.log(deleteThis);
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
@@ -189,7 +189,7 @@ $('#view').on('pageinit', function (editKey) {
         dataType: 'json',
         success: function (data) {
             for (var i = 0, j = data.length; i < j; i++) {
-                var fd = data.length[i];
+                var fd = data[i];
                 $('' +
                     '<div class = "content">' +
                     "<p>" + fd.dish + "</p>" +
@@ -214,7 +214,7 @@ $('#view').on('pageinit', function (editKey) {
         dataType: 'xml',
         success: function (data) {
             for (var i = 0, j = data.length; i < j; i++) {
-                var fd = data.length[i];
+                var fd = data[i];
                 $('' +
                     '<div class = "content">' +
                     "<p>" + fd.dish + "</p>" +
