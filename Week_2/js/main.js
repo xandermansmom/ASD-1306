@@ -41,6 +41,8 @@ var editThis = function() {
     var fd = JSON.parse(localStorage.getItem($(this).attr('data-key')));
 console.log($(this).attr('data-key')); 
     //populate fields with localStorage data
+        $.mobile.changePage("#add");
+
   
     $('#dish').val(fd.dish[1]);
     $('#cat').val(fd.category[1]);
