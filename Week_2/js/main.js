@@ -51,7 +51,6 @@ var autoFillData = function () {
                 $(data).find('food').each(function () {
                     var item = $(this);
                     var string = "";
-                   
                     string += '{"Dish":"' + item.find('dish').text() + '",';
                     string += '""Category:"' + item.find('category').text() + '",';
                     string += '"Rating":"' + item.find('rating').text() + '",';
@@ -67,15 +66,10 @@ var autoFillData = function () {
                 });
             }
         });
-
+  
     }
+       
 
-
-
-    $('#add').on('pageinit', function () {
-        $('#getJSON').on('click', autoFillData);
-        $('#getXML').on('click', autoFillData);
-    });
 };
 
 
@@ -118,10 +112,9 @@ var saveData = function (key) {
 
 //EDIT --is not replacing data but creating a new form data
 var editThis = function () {
-    //var key = $(this).data('key');
-    //var fd = JSON.parse(localStorage.getItem($(this).attr('key')));
-    var fd = JSON.parse(localStorage.getItem($(this).data('key')));
-
+    var key = $(this).data('key');
+    var fd = JSON.parse(localStorage.getItem($(this).attr('key')));
+    console.log($(this).attr('data-key'));
     //populate fields with localStorage data
 
     $.mobile.changePage("#add");
@@ -159,9 +152,10 @@ function deleteThis() {
 
 //CLEAR LOCAL--works
 function clearData() {
-    //Alert if no data in local storage
+    //Hide Clear Button & Alert if no data in local storage
     if (localStorage.length === 0) {
-        alert("There is no data to clear.");
+        $('#clear').hide();
+        alert("There is no data to delete.");
     } else {
         //If there is data to clear, confirm you want to delete all local storage
         if (confirm("Are you sure you want to delete all the entries ? ")) {
@@ -173,6 +167,7 @@ function clearData() {
     }
 
 }
+
 
 //HOME PAGE
 $('#home').on('pageinit', function () {
@@ -203,11 +198,12 @@ $('#add').on('pageinit', function (e) {
 });
 
 //VIEW PAGE--works
-$('#view').on('pageinit', function () {
-
+$('#view').on('pageinit', function () {    
+     
     if (localStorage.length === 0) {
-        alert("There is no data in local storage so default data was added.");
-        autoFillData();
+        alert("There is no data in local storage. Please choose JSON or XML data to load.");
+        $('#getJSON').on('click', autoFillData());
+        $('#getXML').on('click', autoFillData());
     }
 
     $.mobile.changePage("#view");

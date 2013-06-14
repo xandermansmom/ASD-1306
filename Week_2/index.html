@@ -133,7 +133,7 @@
              <h1>View List</h1>      
         </header>
 
-        <div>
+        <div id = "clearButton">
             <input type="button" value="Clear Local Storage" id="clear" data-inline="true" data-theme="a"/>  
         </div>
 
@@ -141,8 +141,8 @@
         <section data-role="listview" data-inset="true" data-filter="true" data-filter-reveal="true">
 
                 <div class="content">
-                    <div id="jsonContent"></div>
-                    <div id = "xmlContent"></div>
+                   <a href="#" data-role="button" id="getJSON">Get JSON Data</a><br />
+                    <a href="#" data-role="button" id="getXML">Get XML Data</a><br />
                 </div>
                 
         </section>
