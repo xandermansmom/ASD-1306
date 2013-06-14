@@ -8,7 +8,7 @@
 //SAVE--works
 
 
-var saveData = function (key) {
+ function saveData (key) {
 
     var foodId,
         food;
@@ -39,8 +39,13 @@ var saveData = function (key) {
     return false;
 };
 
+ function autoFillData (){
+    $(".content").append();
+
+ };
+
 //EDIT --is not replacing data but creating a new form data
-var editThis = function() {
+ function editThis() {
     var fd = JSON.parse(localStorage.getItem($(this).attr('data-key')));
 console.log($(this).attr('data-key')); 
     //populate fields with localStorage data
@@ -61,7 +66,7 @@ console.log($(this).attr('data-key'));
 };
 
 //DELETE --works
-var deleteThis = function () {
+function deleteThis() {
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
     } else {
@@ -78,7 +83,7 @@ var deleteThis = function () {
 };
 
 //CLEAR LOCAL--works
-var clearData = function () {
+function clearData () {
     //Alert if no data in local storage
     if (localStorage.length === 0) {
         alert("There is no data to clear.");
@@ -127,7 +132,7 @@ $('#view').on('pageinit', function () {
 
     if (localStorage.length === 0) {
         alert("There is no data in local storage so default data was added.");
-        //autoFillData();
+        autoFillData();
     }
 
     $.mobile.changePage("#view");
@@ -203,7 +208,7 @@ $('#view').on('pageinit', function () {
                     "<p>" + fd.restaurant + "</p>" +
                     "<p>" + fd.favorite + "</p>" +
                     "<p>" + fd.comment + "</p>" +
-                    '</div>').appendTo('#fdContent');
+                    '</div>').appendTo('#jsonContent');
 
             }
 
@@ -228,8 +233,7 @@ $('#view').on('pageinit', function () {
                     "<p>" + fd.restaurant + "</p>" +
                     "<p>" + fd.favorite + "</p>" +
                     "<p>" + fd.comment + "</p>" +
-                    '</div>')
-                    .appendTo("#fdContent");
+                    '</div>').appendTo("#xmlContent");
             }
         }
     });
