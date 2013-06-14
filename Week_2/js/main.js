@@ -10,7 +10,7 @@
 var editKey = "";
 var saveData =
  function () {
-    console.log(saveData);
+    console.log(food);
     if (!editKey) {
         var foodId = Math.floor(Math.random() * 100000001);
 
@@ -39,7 +39,7 @@ var saveData =
 //EDIT --not working yet
 var editThis = function() {
     var fd = JSON.parse(localStorage.getItem($(this).attr('data-key')));
-console.log(editThis);
+console.log($(this).attr('data-key')); 
     //populate fields with localStorage data
   
     $('#dish').val(fd.dish[1]);
@@ -55,12 +55,11 @@ console.log(editThis);
 
 //DELETE --works
 var deleteThis = function () {
-    console.log(deleteThis);
     if (localStorage.length === 0) {
         alert("There are no records to delete.");
     } else {
         if (confirm("Are you sure you want to delete this record?")) {
-            localStorage.removeItem($(this).data('foodId'));
+            localStorage.removeItem($(this).attr('data-key'));
             alert("The record has been deleted.");
             location.reload("#");
             return false;
@@ -168,14 +167,14 @@ $('#view').on('pageinit', function (editKey) {
         $("#editButton").on("click", editThis);
 
         //delete button works, deletes individual records
-        var createDeleteButton = $("<button data-key='" + editKey + "'></button>").attr({
+        var createDeleteButton = $("<button data-key='" + key + "'></button>").attr({
             "href": "#view",
                 "id": "deleteButton",
                 "data-role": "button",
                 "data-theme": "a",
                 "data-ajax": "false",
                 "data-inline": "true",
-                "data-key": editKey
+                "data-key": key
         })
             .html("Delete Record");
         //Attach delete button to individual records
