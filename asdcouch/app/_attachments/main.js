@@ -103,7 +103,7 @@ $('#view').on('pageinit', function () {
 
 
  $.ajax({
-            url: 'https://cloudant.com/futon/database.html?xandermansmom%2Fasdproject/_design/app/_view/dishes',
+            url: '_design/app/_view/dishes',
             dataType: 'json',
             success: function (data) {
                $.each(data.rows, function(index, dishes){
@@ -127,7 +127,7 @@ $('#view').on('pageinit', function () {
    
     
          $.ajax({
-            url: 'https://cloudant.com/futon/database.html?xandermansmom%2Fasdproject/_design/app/_view/appetizer',
+            url: '_design/app/_view/appetizer',
             dataType: 'json',
             success: function (data) {
                $.each(data.rows, function(index, appetizer){
@@ -148,7 +148,7 @@ $('#view').on('pageinit', function () {
 
     });
         $.ajax({
-            url: 'https://cloudant.com/futon/database.html?xandermansmom%2Fasdproject/_design/app/_view/main_course',
+            url: '_design/app/_view/main_course',
             dataType: 'json',
             success: function (data) {
                $.each(data.rows, function(index, main_course){
@@ -170,7 +170,7 @@ $('#view').on('pageinit', function () {
     });
     
      $.ajax({
-            url: 'https://cloudant.com/futon/database.html?xandermansmom%2Fasdproject/_design/app/_view/side_order',
+            url: '_design/app/_view/side_order',
             dataType: 'json',
             success: function (data) {
                $.each(data.rows, function(index, side_order){
@@ -192,7 +192,7 @@ $('#view').on('pageinit', function () {
     });
     
           $.ajax({
-            url: 'https://cloudant.com/futon/database.html?xandermansmom%2Fasdproject/_design/app/_view/soups_and_salads',
+            url: '_design/app/_view/soups_and_salads',
             dataType: 'json',
             success: function (data) {
                $.each(data.rows, function(index, soups_and_salads){
@@ -214,7 +214,7 @@ $('#view').on('pageinit', function () {
     });
     
      $.ajax({
-            url: 'https://cloudant.com/futon/database.html?xandermansmom%2Fasdproject/_design/app/_view/dessert',
+            url: '_design/app/_view/dessert',
             dataType: 'json',
             success: function (data) {
                $.each(data.rows, function(index, dessert){
