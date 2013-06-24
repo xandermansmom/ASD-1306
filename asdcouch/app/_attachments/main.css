@@ -1,0 +1,10 @@
+li
+{
+list-style-type: none;
+};
+
+ul #dishlist li.dishes
+{
+font-weight: bold;
+height: 16px;
+}
