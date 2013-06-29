@@ -1,10 +1,10 @@
 {
   "env": {
     "local": {
-      "db": "http://127.0.0.1:5984/asdproject"
+      "db": "http://127.0.0.1:5984/asd"
     },
     "cloudant": {
-      "db": "https://xandermansmom:2dMl4cmUBkaI@xandermansmom.cloudant.com/asdproject"
+      "db": "https://xandermansmom:2dMl4cmUBkaI@xandermansmom.cloudant.com/asd"
     }
   }
 }
