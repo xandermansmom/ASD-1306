@@ -2,17 +2,18 @@
 var editKey = null;
 var food = {};
 
-function saveData(_id, _rev) {
-    if (editKey === null) {
-        var foodId = Math.floor(Math.random() * 100000001);
-        food._id = "first:" + foodId;
-    } else {
+function saveData() {
+
+if (editKey === null){
+     var foodId = Math.floor(Math.random() * 100000001); 
+          console.log(foodId);
+    }else{
          editKey = {
              _id: editKey._id,
-             _rev: editKey._rev     
+             _rev: editKey._rev 
     };
-          console.log(_id);
-       console.log(_rev);
+          console.log(editKey);        
+        
     //Gather form field values and store in an object
     //Object properties contain an array with the form label and input value
    
@@ -34,7 +35,10 @@ function saveData(_id, _rev) {
     }
 }
 
-$("#save").on("click", saveData);
+$("#save").on("click", function(){
+   saveData(editKey);
+ });
+
 
 //DELETE RECORD
 function deleteThis(id, rev) {
@@ -230,11 +234,11 @@ $(document).on('pageinit', '#view', function () {
                         var restaurant = dishes.value.restaurant;
                         var favorite = dishes.value.favorite;
                         var comment = dishes.value.comment;
-                        $('ul #dishlist').append('<li>' + dishes.value.dish + '</li>');
-                        $('ul #dishlist').append('<li>' + dishes.value.rating + '</li>');
-                        $('ul #dishlist').append('<li>' + dishes.value.restaurant + '</li>');
-                        $('ul #dishlist').append('<li>' + dishes.value.favorite + '</li>');
-                        $('ul #dishlist').append('<li>' + dishes.value.comment + '</li>');
+                        $('ul #dishlist').append('<li>' + dish + '</li>');
+                        $('ul #dishlist').append('<li>' + rating + '</li>');
+                        $('ul #dishlist').append('<li>' + restaurant + '</li>');
+                        $('ul #dishlist').append('<li>' + favorite + '</li>');
+                        $('ul #dishlist').append('<li>' + comment + '</li>');
                         
  createSubList.append("#dishlist").append(editButton).append('<br>').append(deleteButton.append('<br />').appendTo("#dishlist"));
 });
@@ -256,11 +260,11 @@ $(document).on('pageinit', '#view', function () {
                 var restaurant = appetizer.value.restaurant;
                 var favorite = appetizer.value.favorite;
                 var comment = appetizer.value.comment;
-                $('ul #applist').append('<li>' + appetizer.value.dish + '</li>');
-                $('ul #applist').append('<li>' + appetizer.value.rating + '</li>');
-                $('ul #applist').append('<li>' + appetizer.value.restaurant + '</li>');
-                $('ul #apphlist').append('<li>' + appetizer.value.favorite + '</li>');
-                $('ul #applist').append('<li>' + appetizer.value.comment + '</li>');
+                $('ul #applist').append('<li>' + dish + '</li>');
+                $('ul #applist').append('<li>' + rating + '</li>');
+                $('ul #applist').append('<li>' + restaurant + '</li>');
+                $('ul #apphlist').append('<li>' + favorite + '</li>');
+                $('ul #applist').append('<li>' + comment + '</li>');
 
                 createSubList.append("#applist").append(editButton).append('<br>').append(deleteButton.append('<br />').appendTo("#applist"));
 
@@ -282,11 +286,11 @@ $(document).on('pageinit', '#view', function () {
                         var restaurant = main_course.value.restaurant;
                         var favorite = main_course.value.favorite;
                         var comment = main_course.value.comment;
-                        $('ul #mainlist').append('<li>' + main_course.value.dish + '</li>');
-                        $('ul #mainlist').append('<li>' + main_course.value.rating + '</li>');
-                        $('ul #mainlist').append('<li>' + main_course.value.restaurant + '</li>');
-                        $('ul #mainlist').append('<li>' + main_course.value.favorite + '</li>');
-                        $('ul #mainlist').append('<li>' + main_course.value.comment + '</li>');
+                        $('ul #mainlist').append('<li>' + dish + '</li>');
+                        $('ul #mainlist').append('<li>' + rating + '</li>');
+                        $('ul #mainlist').append('<li>' + restaurant + '</li>');
+                        $('ul #mainlist').append('<li>' + favorite + '</li>');
+                        $('ul #mainlist').append('<li>' + comment + '</li>');
                         
  createSubList.append("#mainlist").append(editButton).append('<br>').append(deleteButton.append('<br />').appendTo("#mainlist"));
 
@@ -348,11 +352,11 @@ $(document).on('pageinit', '#view', function () {
                 var restaurant = side_order.value.restaurant;
                 var favorite = side_order.value.favorite;
                 var comment = side_order.value.comment;
-                $('ul #sidelist').append('<li>' + side_order.value.dish + '</li>');
-                $('ul #sidelist').append('<li>' + side_order.value.rating + '</li>');
-                $('ul #sidelist').append('<li>' + side_order.value.restaurant + '</li>');
-                $('ul #sidelist').append('<li>' + side_order.value.favorite + '</li>');
-                $('ul #sidelist').append('<li>' + side_order.value.comment + '</li>');
+                $('ul #sidelist').append('<li>' + dish + '</li>');
+                $('ul #sidelist').append('<li>' + rating + '</li>');
+                $('ul #sidelist').append('<li>' + restaurant + '</li>');
+                $('ul #sidelist').append('<li>' + favorite + '</li>');
+                $('ul #sidelist').append('<li>' + comment + '</li>');
                 createSubList.append("#sidelist").append(editButton).append('<br>').append(deleteButton.append('<br />').appendTo("#sidelist"));
 
             });
@@ -374,11 +378,11 @@ $(document).on('pageinit', '#view', function () {
                         var restaurant = soups_and_salads.value.restaurant;
                         var favorite = soups_and_salads.value.favorite;
                         var comment = soups_and_salads.value.comment;
-                        $('ul #sslist').append('<li>' + soups_and_salads.value.dish + '</li>');
-                        $('ul #sslist').append('<li>' + soups_and_salads.value.rating + '</li>');
-                        $('ul #sslist').append('<li>' + soups_and_salads.value.restaurant + '</li>');
-                        $('ul #sslist').append('<li>' + soups_and_salads.value.favorite + '</li>');
-                        $('ul #sslist').append('<li>' + soups_and_salads.value.comment + '</li>');
+                        $('ul #sslist').append('<li>' + dish + '</li>');
+                        $('ul #sslist').append('<li>' + rating + '</li>');
+                        $('ul #sslist').append('<li>' + restaurant + '</li>');
+                        $('ul #sslist').append('<li>' + favorite + '</li>');
+                        $('ul #sslist').append('<li>' + comment + '</li>');
 
                         createSubList.append("#sslist").append(editButton).append('<br>').append(deleteButton.append('<br />').appendTo("#sslist"));
 
@@ -402,11 +406,11 @@ $(document).on('pageinit', '#view', function () {
                                 var restaurant = dessert.value.restaurant;
                                 var favorite = dessert.value.favorite;
                                 var comment = dessert.value.comment;
-                                $('ul #dessertlist').append('<li>' + dessert.value.dish + '</li>');
-                                $('ul #dessertlist').append('<li>' + dessert.value.rating + '</li>');
-                                $('ul #desserlist').append('<li>' + dessert.value.restaurant + '</li>');
-                                $('ul #dessertlist').append('<li>' + dessert.value.favorite + '</li>');
-                                $('ul #dessertlist').append('<li>' + dessert.value.comment + '</li>');
+                                $('ul #dessertlist').append('<li>' + dish + '</li>');
+                                $('ul #dessertlist').append('<li>' + rating + '</li>');
+                                $('ul #desserlist').append('<li>' + restaurant + '</li>');
+                                $('ul #dessertlist').append('<li>' + favorite + '</li>');
+                                $('ul #dessertlist').append('<li>' + comment + '</li>');
                                 createSubList.append("#dessertlist").append(editButton).append('<br>').append(deleteButton.append('<br />').appendTo("#dessertlist"));
 
                             });
