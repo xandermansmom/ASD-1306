@@ -35,9 +35,8 @@ if (editKey === null){
     }
 }
 
-$("#save").on("click", function(){
-   saveData(editKey);
- });
+$("#save").on("click", saveData);
+
 
 
 //DELETE RECORD
