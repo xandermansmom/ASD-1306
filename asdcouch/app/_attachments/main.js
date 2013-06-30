@@ -2,19 +2,20 @@
 var editKey = null;
 var food = {};
 
-function saveData(id, rev) {
+function saveData(id, key, value) {
     if (editKey === null) {
         var foodId = Math.floor(Math.random() * 100000001);
+        food._id = "first:" + foodId;
     } else {
          editKey = {
-                _id: id,
-                _rev: rev
-            };
-    }
-    console.log(_id);
-    console.log(_rev);
+             _id: editKey._id,
+             _rev: editKey._rev     
+    };
+          console.log(_id);
+       console.log(_rev);
     //Gather form field values and store in an object
     //Object properties contain an array with the form label and input value
+   
     food.dish = ["Add a Dish:", $("#dish").val()];
     food.category = ["Type of Dish:", $("#cat").val()];
     food.rating = ["Rating:", $("#rate").val()];
@@ -22,7 +23,7 @@ function saveData(id, rev) {
     food.favorite = ["Favorite:", $('#favorite').is(':checked')];
     food.comment = ["Comment:", $("#comment").val()];
 
-
+   console.log(food);
     $.couch.db("asd").saveDoc(food, {
         success: function (data) {
             alert("Food Rating Data is Saved!");
@@ -30,8 +31,10 @@ function saveData(id, rev) {
     });
     window.location.reload("#");
     return false;
+    }
 }
 
+$("#save").on("click", saveData);
 
 //DELETE RECORD
 function deleteThis(id, rev) {
@@ -54,17 +57,36 @@ function deleteThis(id, rev) {
 }
 
 
-$.mobile.changePage("#view");
+//$.mobile.changePage("#view");
 
+///CLEAR RECORD
+function clearData() {
+    //Hide Clear Button & Alert if no data in local storage
+    if (localStorage.length === 0) {
+        alert("There is no data to delete.");
+    } else {
+        //If there is data to clear, confirm you want to delete all local storage
+        if (confirm("Are you sure you want to delete all the entries ? ")) {
+            localStorage.clear();
+            alert("All data is cleared.");
+            $.mobile.changePage("#home");
+            return false;
+        }
+    }
+
+}
+ //Run clearData function                  
+$("#clear").on("click", clearData);
+        
 //EDIT RECORD
 var editThis = function (id, rev) {
  editKey = {
-               _id: id,
-               _rev: rev
+               _id: editKey._id,
+               _rev: editKey._rev 
             };    
     //populate fields with localStorage data
 
-    $.mobile.changePage("#add");
+    //$.mobile.changePage("#add");
 
 
     $('#dish').val(food.dish[1]);
@@ -79,13 +101,13 @@ var editThis = function (id, rev) {
     $("#save").val('Update').data('id');
 };
 
-var editButton = $("<button><a href='#add' id='edit'" + id + ">Edit Record</a></button>");
+var editButton = $("<button><a href='#add' id='edit'>Edit Record</a></button>");
 editButton.on('click', function (id, rev) {
     $.couch.db("asd").openDoc(id, {
         success: function (data) {
             editKey = {
-                _id: id,
-                _rev: rev
+               _id: editKey._id,
+               _rev: editKey._rev 
             };
             console.log(editKey);
             $("#dish").val(food.rating);
@@ -96,13 +118,13 @@ editButton.on('click', function (id, rev) {
         }
     });
 });
+  
 
-
-var deleteButton = $("<button><a href='#' id='delete'" + id + ">Delete Record</a></button>");
+var deleteButton = $("<button><a href='#' id='delete'>Delete Record</a></button>");
 deleteButton.on('click', function (id, rev) {
     editKey = {
-        _id: id,
-        _rev: rev
+       		 _id: editKey._id,
+             _rev: editKey._rev 
     };
     console.log(editKey);
     var ask = confirm("Are you sure you want to delete this Record?");
@@ -117,6 +139,23 @@ deleteButton.on('click', function (id, rev) {
     }
 });
 
+var urlVars = function()
+{
+    var urlData = $($.mobile.activePage).data("url");
+    var urlParts = urlData.split('?');
+    var urlPairs = urlParts[1].split('&');
+    //loop over the pairs
+    var urlValues = {};
+    for (var pair in urlPairs)
+    {
+        var keyValue = urlPairs[pair].split('=');
+        var key = decodeURIComponent(keyValue[0]);
+        var value = decodeURIComponent(keyValue[1]);
+        urlValues[key] = value;
+    }
+    return urlValues;
+};
+
 
 //HOME PAGE
 $('#home').on('pageinit', function () {
@@ -125,7 +164,7 @@ $('#home').on('pageinit', function () {
 
 
 //ADD PAGE
-$('#add').on('pageinit', function (e) {
+$(document).on('pageinit', '#add', function (e) {
 
     $('#addForm').validate({
         //Run if validation errors occur
@@ -175,7 +214,7 @@ $(document).on('pageinit', '#view', function () {
         });
     };
 
-    $.couch.db('asd').view('_design/app/_view/appetizer', {
+    $.couch.db('asd').view('app/appetizer', {
         success: function (data) {
             console.log(data.rows);
             if (data.rows.length === 0) {
@@ -202,7 +241,7 @@ $(document).on('pageinit', '#view', function () {
 
             });
 
-            $.couch.db('asd').view('_design/app/_view/main_course', {
+            $.couch.db('asd').view('app/main_course', {
                 success: function (data) {
                     console.log(data.rows);
                     if (data.rows.length === 0) {
@@ -230,8 +269,8 @@ $(document).on('pageinit', '#view', function () {
                             $.couch.db("asd").openDoc(id, {
                                 success: function (data) {
                                     editKey = {
-                                        _id: id,
-                                        _rev: rev
+                                         _id: editKey._id,
+            							 _rev: editKey._rev 
                                     };
                                     console.log(editKey);
                                     $("#dish").val(rating);
@@ -249,8 +288,8 @@ $(document).on('pageinit', '#view', function () {
 
             deleteButton.on('click', function (id, rev) {
                 editKey = {
-                    _id: id,
-                    _rev: rev
+                    _id: editKey._id,
+            	    _rev: editKey._rev 
                 };
                 console.log(editKey);
                 var ask = confirm("Are you sure you want to delete this Record?");
@@ -268,7 +307,7 @@ $(document).on('pageinit', '#view', function () {
         }
     });
 
-    $.couch.db('asd').view('_design/app/_view/side_order', {
+    $.couch.db('asd').view('app/side_order', {
         success: function (data) {
             console.log(data.rows);
             if (data.rows.length === 0) {
@@ -294,7 +333,7 @@ $(document).on('pageinit', '#view', function () {
             });
            }
       });
-            $.couch.db('asd').view('_design/app/_view/soups_and_salads', {
+            $.couch.db('asd').view('app/soups_and_salads', {
                 success: function (data) {
                     console.log(data.rows);
                     if (data.rows.length === 0) {
@@ -322,7 +361,7 @@ $(document).on('pageinit', '#view', function () {
                 }
             });
 
-                    $.couch.db('asd').view('_design/app/_view/dessert', {
+                    $.couch.db('asd').view('app/dessert', {
                         success: function (data) {
                             console.log(data.rows);
                             if (data.rows.length === 0) {
@@ -348,4 +387,21 @@ $(document).on('pageinit', '#view', function () {
                             });
                         }
                     });
+                    
+       
+       
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
