@@ -1,4 +1,4 @@
-//SAVE RECORD
+ //SAVE RECORD
 var editKey = null;
 var food = {};
 
@@ -14,6 +14,7 @@ if (editKey === null){
     };
           console.log(editKey);        
         
+    }
     //Gather form field values and store in an object
     //Object properties contain an array with the form label and input value
    
@@ -27,16 +28,21 @@ if (editKey === null){
    console.log(food);
     $.couch.db("asd").saveDoc(food, {
         success: function (data) {
+        console.log(data);
             alert("Food Rating Data is Saved!");
+        },
+        error: function(status) {
+        console.log(status);
         }
-    });
-    window.location.reload("#");
-    return false;
-    }
+     });
 }
+   
 
-$("#save").on("click", saveData);
-
+$("#save").on("click", function(){
+   saveData(editKey);
+   $.mobile.changePage('#view'); 
+    return false;
+ });
 
 
 //DELETE RECORD
@@ -183,7 +189,7 @@ $(document).on('pageinit', '#add', function (e) {
         submitHandler: function (form) {
             saveData();
             alert("Submitting Form!");
-            location.reload(true);
+           location.reload(true);
         }
 
     });
@@ -420,21 +426,6 @@ $(document).on('pageinit', '#view', function () {
      });
        
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
